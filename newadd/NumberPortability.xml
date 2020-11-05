@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tydic.cloud.billing.api.dao.INumberPortabilityDao">
+    <select id="getEntities" resultType="com.tydic.cloud.billing.api.pojo.NumberPortabilityData">
+        select device_number, dealer_code, eff_date, exp_date
+        from number_portability
+        where device_number = #{deviceNumber}
+        order by eff_date desc
+    </select>
+    <insert id="saveWithGlobal">
+        insert into number_portability(device_number, dealer_code, eff_date, exp_date)
+        values(#{input.deviceNumber}, #{input.dealerCode}, #{input.effDate}, #{input.expDate})
+    </insert>
+    <update id="updateWithGlobal">
+        <![CDATA[
+        update number_portability
+        set dealer_code = #{input.dealerCode},
+        exp_date = #{input.expDate},
+        update_time = current_timestamp
+        where device_number = #{input.deviceNumber}
+        and eff_date = #{input.effDate}
+        and timestampdiff(SECOND, update_time, #{global.currentTimestamp}) >= 600
+        ]]>
+    </update>
+    <update id="updateWithGlobal2">
+        <![CDATA[
+        update number_portability
+        set dealer_code = #{input.dealerCode},
+        exp_date = #{input.expDate},
+        update_time = current_timestamp
+        where device_number = #{input.deviceNumber}
+        and eff_date = #{input.effDate}
+        ]]>
+    </update>
+</mapper>

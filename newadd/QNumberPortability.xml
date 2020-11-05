@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tydic.cloud.billing.intf.dao.IQNumberPortabilityDao">
+    <delete id="delete" parameterType="com.tydic.cloud.billing.intf.pojo.QNumberPortabilityData">
+        delete from q_number_portability2 where rowid = #{rowid}
+    </delete>
+    <select id="selectRows" resultType="com.tydic.cloud.billing.intf.pojo.QNumberPortabilityData">
+        select device_number, dealer_code, eff_date, exp_date, rowid
+        from q_number_portability2
+        order by serial_num
+    </select>
+</mapper>
