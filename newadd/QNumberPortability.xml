@@ -10,4 +10,5 @@
         from q_number_portability2
         order by serial_num
     </select>
+    <test/>
 </mapper>
